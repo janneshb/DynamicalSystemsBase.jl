@@ -82,8 +82,8 @@ const ContinuousDynamicalSystem = CoupledODEs
 function CoupledODEs(f, u0, p = SciMLBase.NullParameters(); t0 = 0, diffeq = DEFAULT_DIFFEQ)
     IIP = isinplace(f, 4) # from SciMLBase
     s = correct_state(Val{IIP}(), u0)
-    T = eltype(s)
-    prob = ODEProblem{IIP}(f, s, (T(t0), T(Inf)), p)
+    T = typeof(t0)
+    prob = ODEProblem{IIP}(f, s, (t0, T(Inf)), p)
     return CoupledODEs(prob, diffeq)
 end
 # This preserves the referrenced MTK system and the originally passed diffeq kwargs
